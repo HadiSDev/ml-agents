@@ -941,7 +941,7 @@ namespace Unity.MLAgents
             Debug.LogWarning("Heuristic method called but not implemented. Returning placeholder actions.");
         }
 
-        public void AddGlobalSensors(ISensor component)
+        public void AddGlobalSensors(SensorComponent component)
         {
             sensors.AddRange(component.CreateSensors());
         }
