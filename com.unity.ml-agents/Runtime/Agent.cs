@@ -980,6 +980,8 @@ namespace Unity.MLAgents
             }
 
             var globalComponents = GetComponentsInParent<SensorComponent>();
+            sensors.Capacity += globalComponents.Length;
+
             foreach (var component in globalComponents)
             {
                 sensors.AddRange(component.CreateSensors());
