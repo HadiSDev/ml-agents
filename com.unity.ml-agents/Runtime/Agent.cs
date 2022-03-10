@@ -941,6 +941,11 @@ namespace Unity.MLAgents
             Debug.LogWarning("Heuristic method called but not implemented. Returning placeholder actions.");
         }
 
+        public void AddGlobalSensors(ISensor component)
+        {
+            sensors.AddRange(component.CreateSensors());
+        }
+
         /// <summary>
         /// Set up the list of ISensors on the Agent. By default, this will select any
         /// SensorComponent's attached to the Agent.
