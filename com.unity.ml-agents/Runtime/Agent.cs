@@ -941,11 +941,6 @@ namespace Unity.MLAgents
             Debug.LogWarning("Heuristic method called but not implemented. Returning placeholder actions.");
         }
 
-        public void AddGlobalSensors(SensorComponent component)
-        {
-            sensors.AddRange(component.CreateSensors());
-        }
-
         /// <summary>
         /// Set up the list of ISensors on the Agent. By default, this will select any
         /// SensorComponent's attached to the Agent.
@@ -980,6 +975,12 @@ namespace Unity.MLAgents
 
             sensors.Capacity += attachedSensorComponents.Length;
             foreach (var component in attachedSensorComponents)
+            {
+                sensors.AddRange(component.CreateSensors());
+            }
+
+            var globalComponents = GetComponentsInParent<SensorComponent>();
+            foreach (var component in globalComponents)
             {
                 sensors.AddRange(component.CreateSensors());
             }
