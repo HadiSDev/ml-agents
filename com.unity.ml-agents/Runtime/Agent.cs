@@ -60,6 +60,11 @@ namespace Unity.MLAgents
         /// </summary>
         public int groupId;
 
+        /// <summary>
+        /// Enable Global Sensor Components from Parent
+        /// </summary>
+        public bool enableGlobalSensorComponents;
+
         public void ClearActions()
         {
             storedActions.Clear();
@@ -979,12 +984,15 @@ namespace Unity.MLAgents
                 sensors.AddRange(component.CreateSensors());
             }
 
-            var globalComponents = GetComponentsInParent<SensorComponent>();
-            sensors.Capacity += globalComponents.Length;
-
-            foreach (var component in globalComponents)
+            if (enableGlobalSensorComponents)
             {
-                sensors.AddRange(component.CreateSensors());
+                var globalComponents = GetComponentsInParent<SensorComponent>();
+                sensors.Capacity += globalComponents.Length;
+
+                foreach (var component in globalComponents)
+                {
+                    sensors.AddRange(component.CreateSensors());
+                }
             }
 
             // Support legacy CollectObservations
