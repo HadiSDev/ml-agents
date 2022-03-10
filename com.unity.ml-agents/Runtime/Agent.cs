@@ -60,11 +60,6 @@ namespace Unity.MLAgents
         /// </summary>
         public int groupId;
 
-        /// <summary>
-        /// Enable Global Sensor Components from Parent
-        /// </summary>
-        public bool enableGlobalSensorComponents;
-
         public void ClearActions()
         {
             storedActions.Clear();
@@ -305,6 +300,11 @@ namespace Unity.MLAgents
 
         /// Whether or not the Agent has been initialized already
         bool m_Initialized;
+
+        /// <summary>
+        /// Enable Global Sensor Components from Parent
+        /// </summary>
+        public bool enableGlobalSensorComponents;
 
         /// <summary>
         /// Set of DemonstrationWriters that the Agent will write its step information to.
