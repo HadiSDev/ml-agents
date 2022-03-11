@@ -973,23 +973,28 @@ namespace Unity.MLAgents
             {
                 attachedSensorComponents = GetComponentsInChildren<SensorComponent>();
             }
-            else
-            {
-                attachedSensorComponents = GetComponents<SensorComponent>();
-            }
-
-            sensors.Capacity += attachedSensorComponents.Length;
-            foreach (var component in attachedSensorComponents)
-            {
-                sensors.AddRange(component.CreateSensors());
-            }
 
             if (enableGlobalSensorComponents)
             {
                 var globalComponents = GetComponentsInParent<SensorComponent>();
+
+                if (attachedSensorComponents != null && attachedSensorComponents.Length > 0)
+                {
+                    globalComponents = globalComponents.Concat(attachedSensorComponents).ToArray()
+                }
+
                 sensors.Capacity += globalComponents.Length;
 
                 foreach (var component in globalComponents)
+                {
+                    sensors.AddRange(component.CreateSensors());
+                }
+            }
+            else
+            {
+                attachedSensorComponents = GetComponents<SensorComponent>();
+                sensors.Capacity += attachedSensorComponents.Length;
+                foreach (var component in attachedSensorComponents)
                 {
                     sensors.AddRange(component.CreateSensors());
                 }
