@@ -968,36 +968,25 @@ namespace Unity.MLAgents
             }
 
             // Get all attached sensor components
-            SensorComponent[] attachedSensorComponents;
+            List<SensorComponent> attachedSensorComponents = new List<SensorComponent>();
             if (m_PolicyFactory.UseChildSensors)
             {
-                attachedSensorComponents = GetComponentsInChildren<SensorComponent>();
+                attachedSensorComponents.AddRange(GetComponentsInChildren<SensorComponent>());
+            }
+            else {
+                attachedSensorComponents.AddRange(GetComponents<SensorComponent>());
             }
 
             if (enableGlobalSensorComponents)
             {
-                var globalComponents = GetComponentsInParent<SensorComponent>();
-
-                if (attachedSensorComponents != null && attachedSensorComponents.Length > 0)
-                {
-                    globalComponents = globalComponents.Concat(attachedSensorComponents).ToArray();
-                }
-
-                sensors.Capacity += globalComponents.Length;
-
-                foreach (var component in globalComponents)
-                {
-                    sensors.AddRange(component.CreateSensors());
-                }
+                var globalComponents = transform.parent.gameObject.GetComponentsInParent<SensorComponent>();
+                attachedSensorComponents.AddRange(globalComponents);
             }
-            else
+
+            sensors.Capacity += attachedSensorComponents.Count;
+            foreach (var component in attachedSensorComponents)
             {
-                attachedSensorComponents = GetComponents<SensorComponent>();
-                sensors.Capacity += attachedSensorComponents.Length;
-                foreach (var component in attachedSensorComponents)
-                {
-                    sensors.AddRange(component.CreateSensors());
-                }
+                sensors.AddRange(component.CreateSensors());
             }
 
             // Support legacy CollectObservations
