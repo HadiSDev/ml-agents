@@ -980,7 +980,7 @@ namespace Unity.MLAgents
 
                 if (attachedSensorComponents != null && attachedSensorComponents.Length > 0)
                 {
-                    globalComponents = globalComponents.Concat(attachedSensorComponents).ToArray()
+                    globalComponents = globalComponents.Concat(attachedSensorComponents).ToArray();
                 }
 
                 sensors.Capacity += globalComponents.Length;
